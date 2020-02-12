@@ -1,0 +1,151 @@
+<div class="container mx-auto" *ngIf="tcmData">
+  <mat-card>
+    <div class="flex mb-4">
+      <!-- <div class="w-1/3 pr-5 border-r">
+        <div *ngFor="let item of pathItems; let pathIndex = index">
+          <mat-form-field class="w-3/4 mr-5">
+            <mat-label>Selecteer locatie</mat-label>
+            <mat-select
+              [(ngModel)]="item.value"
+              (selectionChange)="setPathItems()"
+            >
+              <mat-option
+                *ngFor="let option of locationsList"
+                [value]="option.code"
+              >
+                {{ option.code }}
+                <small>| {{ option.primaryLocationName }}</small>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button
+            mat-icon-button
+            color="warn"
+            aria-label="Example icon-button with a heart icon"
+            *ngIf="pathIndex > 1"
+            (click)="removePath(pathIndex)"
+          >
+            <mat-icon>remove</mat-icon>
+          </button>
+        </div>
+
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="addLocation()"
+          class="w-3/4"
+        >
+          Voeg locatie toe
+        </button>
+      </div> -->
+
+      <div class="w-full">
+        <div class="flex w-full py-3 mb-5 font-bold text-lg">
+          <div class="w-3/4">Traject</div>
+          <div class="w-1/4 justify-between flex ml-5 pl-8 border-l">
+            Samenstelling
+          </div>
+        </div>
+        <div
+          *ngFor="let item of allPathItems; let pathIndex = index"
+          class="flex w-full border-b mb-5 pb-3"
+        >
+          <div class="flex w-full items-center">
+            <div class="w-3/4 flex justify-between items-center">
+              <div>
+                <div class="font-medium" *ngIf="getLocation(item.start)">
+                  {{ getLocation(item.start).code }} |
+                  {{ getLocation(item.start).primaryLocationName }}
+                </div>
+              </div>
+
+              <div class="flex items-center">
+                <div class="font-medium mr-12">
+                  <mat-form-field class="w-full mr-5">
+                    <mat-label>Locatie</mat-label>
+                    <mat-select
+                      [(ngModel)]="item.end"
+                      (selectionChange)="updateEndLocation(item.uId)"
+                    >
+                      <mat-option
+                        *ngFor="let option of locationsList"
+                        [value]="option.locationPrimaryCode"
+                      >
+                        {{ option.code }}
+                        <small>| {{ option.primaryLocationName }}</small>
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <button
+                  mat-raised-button
+                  class="mr-10"
+                  (click)="openDialogActivity(item.id)"
+                  color="primary"
+                  [disabled]="item.id === null"
+                >
+                  Bewerk activiteiten
+                </button>
+
+                <button
+                  mat-icon-button
+                  color="warn"
+                  [disabled]="pathIndex === 0"
+                  (click)="deleteTraject(item.uId)"
+                >
+                  <mat-icon>remove</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="w-1/4 justify-between flex border-l ml-5 pl-5">
+              <button
+                mat-button
+                color="accent"
+                (click)="pasteComposition(item.id)"
+                *ngIf="copyId !== item.id && copyId !== null"
+              >
+                Plakken
+              </button>
+              <button
+                mat-button
+                color="primary"
+                (click)="copyComposition(item.id)"
+                [disabled]="item.id === null"
+                *ngIf="copyId === item.id || copyId === null"
+              >
+                Kopieer
+              </button>
+
+              <button
+                mat-raised-button
+                color="primary"
+                [disabled]="item.id === null"
+                (click)="editComposition(item.id)"
+              >
+                Bewerken
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex w-full py-3">
+          <button
+            mat-raised-button
+            color="primary"
+            *ngIf="allPathItems.length > 0"
+            [disabled]="allPathItems[allPathItems.length - 1].end === null"
+            (click)="addTraject()"
+            class="w-3/4"
+          >
+            Voeg traject toe
+          </button>
+          <div class="w-1/4 justify-between flex ml-5 pl-8 border-l">
+            <button mat-raised-button color="primary" disabled class="w-full">
+              Verstuur TCM
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

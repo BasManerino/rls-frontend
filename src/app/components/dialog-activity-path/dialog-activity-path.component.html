@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Activiteiten bewerken</h2>
+<mat-dialog-content style="width:1200px;">
+  <mat-form-field class="mr-5 max-w-md">
+    <mat-checkbox *ngFor="let option of allActivityTypes">
+      {{ option.code }} - {{ option.description }}</mat-checkbox
+    >
+  </mat-form-field>
+</mat-dialog-content>
+<br />
+<mat-dialog-actions>
+  <button
+    color="warn"
+    mat-raised-button
+    mat-dialog-close
+    mat-dialog-close="close"
+  >
+    Sluiten
+  </button>
+  <button color="primary" mat-raised-button mat-dialog-close="close">
+    Opslaan
+  </button>
+</mat-dialog-actions>

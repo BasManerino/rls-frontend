@@ -1,0 +1,42 @@
+<div *ngFor="let item of selectedData">
+    <h2 mat-dialog-title>Edit locomotive: {{item.id}}</h2>
+    <br>
+    <div mat-dialog-content>
+        <form [formGroup]="editLocomotiveForm">
+            <div *ngFor="let content of updatedLoco">
+                <!-- <div>
+                    <mat-form-field>
+                        <textarea matInput id="description" placeholder="Description" value="{{item.description}}"
+                            cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                            cdkAutosizeMaxRows="5" required [formControl]="locoDescFormControl"></textarea>
+                    </mat-form-field>
+                </div> -->
+                <div>
+                    <mat-form-field>
+                        <mat-label>TractionType</mat-label>
+                        <mat-select [(ngModel)]="content.tractionType" [ngModelOptions]="{standalone: true}">
+                            <mat-option id="tractionType" *ngFor="let option of tractionTypes" [value]="option.type">
+                                {{ option.type }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field>
+                        <mat-label>Driver</mat-label>
+                        <mat-select [(ngModel)]="content.driver" [ngModelOptions]="{standalone: true}">
+                            <mat-option id="driver" *ngFor="let option of driverIndication" [value]="option.indication">
+                                {{ option.indication }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <mat-dialog-actions>
+        <button color="warn" mat-raised-button mat-dialog-close mat-dialog-close="close">Close</button>
+        <button color="primary" mat-raised-button (click)="updateDetails()">Save changes!</button>
+    </mat-dialog-actions>
+</div>

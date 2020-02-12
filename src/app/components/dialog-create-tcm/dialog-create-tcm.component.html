@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Trein aanmaken</h2>
+<mat-dialog-content style="width:300px;">
+  <mat-form-field class="w-full">
+    <mat-label>Selecteer start locatie</mat-label>
+    <mat-select required [(ngModel)]="startLocation">
+      <mat-option
+        *ngFor="let option of locationsList"
+        [value]="option.locationPrimaryCode"
+      >
+        {{ option.code }}
+        <small>| {{ option.primaryLocationName }}</small>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="w-full">
+    <mat-label>Treinnummer</mat-label>
+    <input matInput required [(ngModel)]="trainId" />
+  </mat-form-field>
+</mat-dialog-content>
+<br />
+<mat-dialog-actions>
+  <button
+    color="warn"
+    mat-raised-button
+    mat-dialog-close
+    mat-dialog-close="close"
+  >
+    Sluiten
+  </button>
+  <button color="primary" mat-raised-button (click)="submitDialog()">
+    Aanmaken!
+  </button>
+</mat-dialog-actions>

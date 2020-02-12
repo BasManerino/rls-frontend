@@ -1,0 +1,24 @@
+<div class="container mx-auto">
+  <mat-card>
+    <div class="flex justify-between mb-8 items-center bg-gray-100 p-4 rounded border">
+      <h1 class="font-bold text-xl">RailLinkSystems</h1>
+      <button mat-raised-button color="primary" (click)="createTcm()">Nieuwe trein aanmaken</button>
+    </div>
+    <table class="table-auto w-full">
+      <thead>
+        <tr>
+          <th class="px-4 py-2">OperationalTrainNumber</th>
+          <th class="px-4 py-2">scheduledTimeAtHandover</th>
+          <th class="px-4 py-2">scheduledDateTimeAtTransfer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of allTcms" (click)="openTcm(item)">
+          <td class="border px-4 py-2">{{ item.operationalTrainNumber }}</td>
+          <td class="border px-4 py-2">{{ item.scheduledTimeAtHandover | date }}</td>
+          <td class="border px-4 py-2">{{ item.scheduledDateTimeAtTransfer | date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card>
+</div>

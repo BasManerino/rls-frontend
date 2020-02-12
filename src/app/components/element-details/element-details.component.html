@@ -1,0 +1,262 @@
+<div *ngIf="activeJourney" class="container mx-auto">
+    <div class="flex mb-4">
+        <div class="w-3/3 pr-5">
+            <div id="trainOverview" *ngFor="let item of compositionList; let i=index">
+                <div *ngIf="item.type === 'Locomotive'">
+                    <img id="locomotivePicture" src="https://i.dlpng.com/static/png/6625748_preview.png">
+                    {{ item.id }}
+                </div>
+                <div *ngIf="item.type === 'Wagon'">
+                    <img id="wagonPicture" src="https://i.ya-webdesign.com/images/vector-trains-wagon-6.png">
+                    {{ item.id }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <mat-card>
+        <div class="flex mb-4" id="trainComposition">
+            <div class="w-1/3 pr-5 border-r">
+                <h2>Traincomposition</h2>
+                <button id="addBtn" mat-button [matMenuTriggerFor]="menu">Add</button>
+                <mat-menu #menu="matMenu">
+                    <button id="addItem" mat-button (click)="openLocoDialog()">Locomotive</button>
+                    <button id="addItem" mat-button (click)="openWagonDialog()">Wagon</button>
+                </mat-menu>
+                <div cdkDropListGroup class="example-list" (cdkDropListDropped)="drop($event)">
+                    <div cdkDropList [cdkDropListData]="i" *ngFor="let item of compositionList; let i = index">
+                        <div class="example-box" cdkDrag [cdkDragData]="i" (cdkDragEntered)="entered($event)"
+                            (click)="showDetails(item.id, item.type)">
+                            {{ item.type }} | {{ item.id }}
+                            <button mat-icon-button color="warn" aria-label="Example icon-button with a heart icon"
+                                (click)="removeElement(item.id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <button *ngIf="i > 0" mat-icon-button (click)="moveElementUp(i)">
+                                <mat-icon>keyboard_arrow_up</mat-icon>
+                            </button>
+                            <button *ngIf="i != compositionList.length-1" mat-icon-button (click)="moveElementDown(i)">
+                                <mat-icon>keyboard_arrow_down</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button mat-button color="primary" (click)="saveComposition()">Save composition</button>
+            </div>
+
+            <div class="w-2/3 pr-5" id="details">
+                <div class="flex w-full py-3 mb-5">
+                    <h2>Details</h2>
+                    <div class="detailField" *ngFor="let item of detailList">
+                        <div *ngIf="item.type === 'Locomotive'">
+                            <mat-form-field>
+                                <input matInput placeholder="Locomotivenumber" disabled value="{{ item.id }}">
+                            </mat-form-field>
+                            <!-- <mat-form-field>
+                                <input matInput placeholder="Description" disabled value="{{ item.description }}">
+                            </mat-form-field> -->
+                            <mat-form-field>
+                                <input matInput placeholder="TractionType" disabled value="{{ item.tractionType }}">
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Driver" disabled value="{{ item.driver }}">
+                            </mat-form-field>
+                        </div>
+                        <div id="wagonDetails" class="px-2">
+                            <div class="flex -mx-2" *ngIf="item.type === 'Wagon'">
+                                <div id="detialsLeft" class="w-1/2 px-2 border-r">
+                                    <!-- 1e rij -->
+                                    <mat-form-field>
+                                        <input matInput placeholder="WagonId" disabled value="{{ item.id }}">
+                                    </mat-form-field>
+
+                                    <mat-form-field>
+                                        <input matInput placeholder="Length over buffers" disabled
+                                            value="{{ item.lengthOverBuffers }}">
+                                    </mat-form-field>
+
+                                    <mat-form-field>
+                                        <input matInput placeholder="Numbers of axles" disabled
+                                            value="{{ item.numberOfAxles }}">
+                                    </mat-form-field>
+
+                                    <mat-form-field>
+                                        <input matInput placeholder="Total weight of wagon" disabled
+                                            value="{{ totalWeightWagon }}">
+                                    </mat-form-field>
+
+                                    <mat-form-field>
+                                        <input matInput placeholder="Contains dangerousgoods" disabled
+                                            value="{{ dangerGoodIndicator }}">
+                                    </mat-form-field>
+                                </div>
+                                <div id="detailsRight" class="w-1/2 px-2">
+                                    <!-- 2e rij -->
+                                    <div *ngFor="let wagonLoads of item.wagonLoads; let i=index">
+                                        <div class="wagonLoad">
+                                            <h3>WagonLoad {{i + 1}}:</h3>
+                                            <mat-form-field>
+                                                <input matInput placeholder="WagonLoad weight" disabled
+                                                    value="{{ wagonLoads.weight }} tons">
+                                            </mat-form-field>
+
+                                            <mat-form-field>
+                                                <input matInput placeholder="dangerLabel" disabled
+                                                    value="{{ wagonLoads.dangerGoods }}">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <mat-form-field>
+                                        <input matInput placeholder="Weight of empty wagon" disabled
+                                            value="{{ item.wagonWeightEmpty }}">
+                                    </mat-form-field>
+
+                                </div>
+                            </div>
+                        </div>
+                        <button id="editBtn" mat-icon-button color="primary"
+                            aria-label="Example icon-button with a heart icon" (click)="openEditDialog(item.type)">
+                            <mat-icon>create</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container mx-auto"> -->
+<!-- <div class="row">
+    <div class="col-sm-4" id="trainComponents">
+        <h2>Treinsamenstelling:</h2>
+        <div class="dropdown">
+            <button id="addBtn" type="button" class="btn dropdown" data-toggle="dropdown" aria-hidden="true"><i
+                    class="fa fa-plus-square"></i></button>
+            <div class="dropdown-menu">
+                <button type="button" id="addLoco" class="dropdown-item" data-toggle="modal"
+                    data-target="#addLocoModal">Locomotief</button>
+                <button type="button" id="addWagon" class="dropdown-item" data-toggle="modal"
+                    data-target="#addWagonModal">Wagon</button>
+            </div>
+        </div> -->
+
+<!-- Add a locomotive modal -->
+<!-- <div class="modal fade" id="addLocoModal" tabindex="-1" role="dialog" aria-labelledby="addLocoModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 name="modalTitle" class="modal-title" id="addLocoModalLabel">Locomotief toevoegen:</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label>Locomotief:</label>
+                        <input class="form-control" type="text">
+                        <label>LocomotiefId:</label>
+                        <input class="form-control" type="text">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
+                        <button type="button" class="btn btn-primary">Locomotief toevoegen!</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+<!-- Add a wagon modal -->
+<!-- <div class="modal fade" id="addWagonModal" tabindex="-1" role="dialog" aria-labelledby="addWagonModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 name="modalTitle" class="modal-title" id="addWagonModalLabel">Wagon toevoegen:</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label>Wagon:</label>
+                        <input class="form-control" type="text">
+                        <label>WagonId:</label>
+                        <input class="form-control" type="text">
+                        <label>Gevaarlijke stoffen</label>
+                        <div id="dangerousGoods"> -->
+<!-- Itempicker with all dangerous goods -->
+<!-- <img id="danger" (click)="selectGood($event)"
+    src="https://www.gevaarsymbolen.be/sites/default/files/public/styles/160x160/public/ico-explosive-new.png?itok=HXpgVpOU">
+<img id="danger" (click)="selectGood($event)"
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/GHS-pictogram-rondflam.svg/1200px-GHS-pictogram-rondflam.svg.png">
+</div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary">Save changes</button>
+</div>
+</div>
+</div>
+</div> -->
+
+
+<!-- Componentlist, for now just hardcoded for design purposes -->
+<!-- <div class="list-group">
+            <button type="button" class="list-group-item list-group-item-action"><i class="fa fa-train"></i>
+                Locomotief LC3012</button>
+            <button type="button" class="list-group-item list-group-item-action active">Wagon WG01</button>
+            <button type="button" class="list-group-item list-group-item-action">Wagon WG01</button>
+            <button type="button" class="list-group-item list-group-item-action">Wagon WG02</button>
+            <button type="button" class="list-group-item list-group-item-action">Wagon WG03</button>
+            <button type="button" class="list-group-item list-group-item-action">Wagon WG04</button>
+            <button type="button" class="list-group-item list-group-item-action">Wagon WG05</button>
+            <button type="button" class="list-group-item list-group-item-action">Wagon WG06</button>
+        </div> -->
+<!-- <div *ngFor="let component of locomotiveList">
+            <button type="button" class="list-group-item list-group-item-action">{{component.locoNumber}}</button>
+        </div> -->
+<!-- </div>
+    <div class="col-sm-5" id="componentDetails">
+        <h2>Details:</h2> -->
+<!-- DetailComponent element, but for now just hardcoded for design purposes -->
+<!-- <label>Wagon:</label>
+        <input class="form-control" type="text" placeholder="Wagon WG01" readonly>
+        <label>Wagon ID:</label>
+        <input class="form-control" type="text" placeholder="361718439446" readonly>
+        <label>Koppelen in:</label>
+        <input class="form-control" type="text" placeholder="Amsterdam" readonly>
+        <label>Loskoppelen in:</label>
+        <input class="form-control" type="text" placeholder="Maastricht" readonly>
+        <label>Gevaarlijke stoffen:</label>
+        <div id="dangerousGoods"> -->
+<!-- Itempicker with all dangerous goods -->
+<!-- <img id="dangerSelected" (click)="selectGood($event)"
+                src="https://www.gevaarsymbolen.be/sites/default/files/public/styles/160x160/public/ico-explosive-new.png?itok=HXpgVpOU">
+            <img id="danger" (click)="selectGood($event)"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/GHS-pictogram-rondflam.svg/1200px-GHS-pictogram-rondflam.svg.png">
+        </div>
+        <div class="editArea">
+            <button id="editBtn" type="button"><i class="fa fa-edit"></i></button>
+            <button id="removeBtn" type="button"><i class="fa fa-trash-o"></i></button>
+        </div>
+    </div>
+
+</div> -->
+<!-- </div> -->

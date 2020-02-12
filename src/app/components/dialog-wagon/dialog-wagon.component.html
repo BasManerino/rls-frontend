@@ -1,0 +1,111 @@
+<h2 mat-dialog-title>Add a wagon to the composition</h2>
+<div mat-dialog-content>
+    <mat-horizontal-stepper linear #stepper="matHorizontalStepper">
+
+        <mat-step [stepControl]="wagonNumber" errorMessage="Wagonnumber is required">
+            <form [formGroup]="wagonIdControl">
+                <ng-template matStepLabel>Wagon number</ng-template>
+
+                <mat-form-field>
+                    <input matInput id="wagonInputId" placeholder="Wagon Number" [formControl]="wagonNumber"
+                        [matAutocomplete]="auto" required>
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <div>
+                    <button mat-button matStepperNext (click)="getWagonId()">Next</button>
+                </div>
+
+            </form>
+        </mat-step>
+
+        <!-- 
+        TODO: Page 2
+    -->
+        <mat-step id="step2">
+            <form [formGroup]="wagonLoadControl">
+
+                <ng-template matStepLabel>Wagonload</ng-template>
+                <div formArrayName="wagonLoads">
+                    <div *ngFor="let loads of wagonLoadsForms.controls; let i=index" [formGroupName]="i">
+                        <h3>Enter the details of this wagonload:</h3>
+
+                        <mat-form-field>
+                            <input matInput placeholder="Weight (in tons)" type="number" formControlName="weight"
+                                required>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-select placeholder="Dangerlabel" formControlName="dangerGoods">
+                                <mat-option *ngFor="let good of dangerousGoodsList" [value]="good.description">
+                                    {{ good.description }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <div>
+                            <button mat-icon-button color="warn" (click)="deleteWagonLoad(i)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div>
+                    <br>
+                    <button color="primary" mat-raised-button (click)="addWagonLoad()">Add a wagonload</button>
+                </div>
+
+                <div>
+                    <br>
+                    <button mat-button matStepperNext (click)="showWagonLoads()">Next</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <!-- 
+            TODO: Page 3
+            ? (Show total weight)
+         -->
+        <mat-step>
+            <ng-template matStepLabel>Details of new wagon</ng-template>
+
+            <div>
+
+                <mat-form-field>
+                    <input matInput placeholder="WagonNumber" value="{{wagonId}}" disabled>
+                </mat-form-field>
+
+                <div *ngFor="let load of wagonLoads">
+                    <h2>WagonLoad:</h2>
+                    <mat-form-field>
+                        <input matInput placeholder="Weight" value="{{load.weight}} (tons)" disabled>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input matInput placeholder="Dangerlabel" value="{{load.dangerGoods}}" disabled>
+                    </mat-form-field>
+                </div>
+                <mat-form-field>
+                    <input matInput placeholder="Total weight of wagon" value="{{totalWeight}}" disabled>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <br>
+                <button color="primary" mat-raised-button mat-dialog-close mat-dialog-close="add"
+                    (click)="addWagon()">Add
+                    wagon!</button>
+            </div>
+        </mat-step>
+
+    </mat-horizontal-stepper>
+</div>
+<mat-dialog-actions>
+    <button color="warn" mat-raised-button mat-dialog-close mat-dialog-close="close">Close</button>
+</mat-dialog-actions>

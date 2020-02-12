@@ -1,0 +1,136 @@
+<h2 mat-dialog-title>Add a locomotive</h2>
+<div mat-dialog-content>
+    <mat-horizontal-stepper linear #stepper="matHorizontalStepper">
+        <!-- 
+            TODO: Page 1 van Stepper 
+            - Validations(Check if number is in loconumberlist, check if number is not in compositionlist)
+        -->
+        <mat-step [stepControl]="locoNumber" errorMessage="Trainnumber is required.">
+            <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Locomotive number</ng-template>
+                <mat-form-field>
+                    <input matInput id="locoInputId" placeholder="Locomotive Number" [formControl]="locoNumber"
+                        [matAutocomplete]="auto" required>
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperNext (click)="getLocoId()">Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="locoTractionForm" errorMessage="Traintraction is required.">
+            <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Traintraction</ng-template>
+                <mat-form-field>
+                    <mat-label>TractionType</mat-label>
+                    <mat-select [formControl]="locoTractionForm" required>
+                        <mat-option id="locoTractionType" *ngFor="let option of tractionTypes" [value]="option.type">
+                            {{ option.type }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="locoDriver" errorMessage="Driverindication is required.">
+            <form [formGroup]="thirdFormGroup">
+                <ng-template matStepLabel>Driverindication</ng-template>
+                <mat-form-field>
+                    <mat-label>DriverIndication</mat-label>
+                    <mat-select [formControl]="locoDriver" required>
+                        <mat-option id="locoDriver" *ngFor="let option of driverIndication" [value]="option.indication">
+                            {{ option.indication }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Details of new locomotive</ng-template>
+            <div>
+                <mat-form-field>
+                    <input matInput placeholder="LocomotiveNumber" value="{{locoId}}" disabled>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Traction" value="{{locoTractionForm.value}}" disabled>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Driver" value="{{locoDriver.value}}" disabled>
+                </mat-form-field>
+            </div>
+            <div>
+                <br>
+                <button color="primary" mat-raised-button (click)="addLocomotive()">Add locomotive!</button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>
+<mat-dialog-actions>
+    <button color="warn" mat-raised-button mat-dialog-close mat-dialog-close="close">Close</button>
+</mat-dialog-actions>
+
+
+<!--
+        ! Oude toevoegscherm, nog ff laten staan totdat de nieuwe af is
+        TODO: Onderdelen van dit onderstaande hergebruiken 
+            <div *ngFor="let item of newLoco">
+            <div>
+                <mat-form-field>
+                    <mat-label>Selecteer Locomotief</mat-label>
+                    <mat-select [(ngModel)]="item.id" [ngModelOptions]="{standalone: true}">
+                        <mat-option id="locoId" *ngFor="let option of locomotiveList" [value]="option.locoNumber">
+                            {{ option.locoNumber }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="locomotiveIdFormControl.invalid">{{getRequiredErrorMessage('locoId')}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field>
+                    <mat-label>Type van de locomotief</mat-label>
+                    <mat-select [(ngModel)]="item.trainType" [ngModelOptions]="{standalone: true}">
+                        <mat-option id="locoType" *ngFor="let option of trainTypes" [value]="option.type">
+                            {{ option.type }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="locomotiveTypeFormControl.invalid">{{getRequiredErrorMessage('locoType')}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field>
+                    <mat-label>TractionType</mat-label>
+                    <mat-select [(ngModel)]="item.tractionType" [ngModelOptions]="{standalone: true}">
+                        <mat-option id="locoTractionType" *ngFor="let option of tractionTypes" [value]="option.type">
+                            {{ option.type }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="locomotiveTractionTypeFormControl.invalid">{{getRequiredErrorMessage('locoTractionType')}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field>
+                    <mat-label>DriverIndication</mat-label>
+                    <mat-select [(ngModel)]="item.driver" [ngModelOptions]="{standalone: true}">
+                        <mat-option id="locoDriver" *ngFor="let option of driverIndication" [value]="option.indication">
+                            {{ option.indication }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="locomotiveDriverFormControl.invalid">{{getRequiredErrorMessage('locoDriver')}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div> 
+    -->

@@ -1,0 +1,135 @@
+.check {
+    opacity:0.5;
+	color:grey;
+}
+
+#dangerousGoods {
+    height: 80px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+img#danger {
+    opacity: 0.2;
+    height: 50px;
+    width: 50px;
+    margin: 10px 0px 10px 3px;
+}
+
+img#dangerSelected {
+    opacity: 1;
+    height: 50px;
+    width: 50px;
+    margin: 10px 0px 10px 3px;
+}
+
+button {
+    display: block;
+}
+
+mat-form-field {
+    display: block;
+}
+
+mat-list-item {
+    cursor: pointer;
+}
+
+#addBtn {
+    margin-top: 10px
+}
+
+.detailField {
+    margin-top: 7.5%;
+}
+
+.detailField mat-form-field {
+    width: 250%;
+}
+
+mat-list mat-list-item p{
+    width: 90%;
+}
+
+mat-list button {
+    margin-left: 30px;
+}
+
+#locomotivePicture {
+    height: 100px;
+    width: 120px;
+}
+
+#wagonPicture {
+    height: 100px;
+    width: 120px;
+}
+
+#trainOverview {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+#wagonDetails mat-form-field {
+    width: 100%;
+}
+
+#detialsLeft,
+#detailsRight {
+    margin-left: 20px;
+}
+
+#detailsRight mat-form-field {
+    width: 175%;
+}
+
+/* Test */
+.example-list {
+    width: 500px;
+    max-width: 100%;
+    border: solid 1px #ccc;
+    min-height: 60px;
+    display: block;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .example-box {
+    padding: 20px 10px;
+    border-bottom: solid 1px #ccc;
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    cursor: move;
+    background: white;
+    font-size: 14px;
+  }
+  
+  .cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+                0 8px 10px 1px rgba(0, 0, 0, 0.14),
+                0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  }
+  
+  .cdk-drag-placeholder {
+    opacity: 0;
+  }
+  
+  .cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+  
+  .example-box:last-child {
+    border: none;
+  }
+  
+  .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+  

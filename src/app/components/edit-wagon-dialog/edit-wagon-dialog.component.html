@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>Wagon aanpassen</h2>
+<div *ngFor="let item of selectedWagon">
+    <h2 mat-dialog-title>ID: {{ item.id }}</h2>
+    <mat-dialog-content>Pas hier de wagon aan:</mat-dialog-content>
+    <br>
+    <div mat-dialog-content>
+        <form [formGroup]="existingWagonControl">
+            <div *ngFor="let content of updatedWagon">
+                <div *ngIf="item.wagonLoads.length > 0">
+                    <div *ngFor="let wagonload of content.wagonLoads; let i=index">
+                        <mat-form-field>
+                            <input matInput placeholder="Weight" type="number" [value]="wagonload.weight" [(ngModel)]="wagonload.weight"
+                                [ngModelOptions]="{standalone: true}" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-select placeholder="Dangerlabel" [(ngModel)]="wagonload.dangerGoods"
+                                [ngModelOptions]="{standalone: true}">
+                                <mat-option *ngFor="let good of dangerousGoodsList" [value]="good.description">
+                                    {{ good.description }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <div>
+                            <button mat-icon-button color="warn" (click)="deleteWagonLoad(i)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form [formGroup]="wagonLoadControl">
+            <div formArrayName="wagonLoads">
+                <div *ngFor="let load of wagonLoadsForms.controls; let i=index" [formGroupName]="i">
+                    <mat-form-field>
+                        <input matInput placeholder="Weight (in tons)" type="number" formControlName="weight" required>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-select placeholder="Dangerlabel" formControlName="dangerGoods">
+                            <mat-option *ngFor="let good of dangerousGoodsList" [value]="good.description">
+                                {{ good.description }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <div>
+                        <button mat-icon-button color="warn" (click)="deleteNewWagonLoad(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <br>
+                <button color="primary" mat-raised-button (click)="addWagonLoad()">Add a wagonload</button>
+            </div>
+        </form>
+        <!-- Opslaan van veranderingen -->
+    </div>
+    <mat-dialog-actions>
+        <button color="warn" mat-raised-button mat-dialog-close mat-dialog-close="close">Close</button>
+        <button color="primary" mat-raised-button (click)="updateWagon()">Edit wagon!</button>
+    </mat-dialog-actions>
+</div>
